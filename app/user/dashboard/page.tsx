@@ -11,6 +11,10 @@ export default async function UserDashboardPage() {
         <PlusIcon className="w-5" />
         <p>Log a Workout</p>
       </Link>
+      <Link href="/user/dashboard/create-routine" className="flex flex-row items-center py-6 px-12 gap-2 h-10 rounded-2xl self-center mt-3 bg-blue-500 hover:bg-blue-900 cursor-pointer text-amber-50">
+        <PlusIcon className="w-5" />
+        <p>Create Routine</p>
+      </Link>
     </main>
   );
 }

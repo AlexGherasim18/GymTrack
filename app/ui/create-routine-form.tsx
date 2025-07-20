@@ -1,23 +1,22 @@
 'use client';
 
-import Form from "./form";
 import Input from "./input";
 import Button from "./button";
+import Form from "./form";
 import PopUp from "./popup";
-import { useState, useActionState, useEffect } from "react";
-import { addWorkout } from "../lib/actions";
+import { useActionState, useState, useEffect } from "react";
 import { WorkoutExercise } from "../lib/definitions";
-import { TrashIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { addRoutine } from "../lib/actions";
 import { useRouter } from "next/navigation";
 
-export default function CreateWorkoutForm({ className }: { className?: string }) {
+export default function CreateRoutineForm() {
     const [displayPopUp, setDisplayPopUp] = useState(false);
-    const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
-    const [state, formAction] = useActionState(addWorkout, undefined);
+    const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([]);
+    const [state, formAction] = useActionState(addRoutine, undefined);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const router = useRouter();
-    const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
         if(state?.success) {
@@ -26,12 +25,12 @@ export default function CreateWorkoutForm({ className }: { className?: string })
             
             const timeout = setTimeout(() => {
                 setShowSuccess(false);
-                router.push("/user/workouts");
+                router.push("/user/routines");
             }, 2000);
             return () => clearTimeout(timeout);
         }
-    }, [state?.success]);
-    
+    }, [state?.success])
+
     const handleAddSet = (exerciseIndex: number) => {
         setSelectedExercises((exercisesList) => 
             exercisesList.map((exercise, index) => index === exerciseIndex 
@@ -81,19 +80,13 @@ export default function CreateWorkoutForm({ className }: { className?: string })
         );
     };
 
-    return (
+    return ( 
         <>
             {!displayPopUp ? <Form action={formAction} className="w-[400px] mx-auto mt-10 max-h-screen overflow-hidden">
-                <label htmlFor="workout-name">Workout Name:</label>
-                <Input className="w-full" type="text" name="workout-name" id="workout-name" placeholder="E.g: Push Workout" required/>
-                {state?.validationErrors?.workoutName && (
-                    <p className="text-red-500 text-sm mt-1">{state.validationErrors.workoutName[0]}</p>
-                )}
-
-                <label htmlFor="workout-date">Workout Date:</label>
-                <Input className="w-full" type="date" name="workout-date" id="workout-date" max={today} required/>
-                {state?.validationErrors?.workoutDate && (
-                    <p className="text-red-500 text-sm mt-1">{state.validationErrors.workoutDate[0]}</p>
+                <label htmlFor="routine-name">Routine Name:</label>
+                <Input className="w-full" type="text" name="routine-name" id="routine-name" placeholder="E.g: Push Day" required/>
+                {state?.validationErrors?.routineName && (
+                    <p className="text-red-500 text-sm mt-1">{state.validationErrors.routineName[0]}</p>
                 )}
 
                 {selectedExercises.length > 0 && (
@@ -127,14 +120,14 @@ export default function CreateWorkoutForm({ className }: { className?: string })
                     </ul>
                 )}
 
-                {state?.validationErrors?.workoutExercises && (
-                    <p className="text-red-500 text-sm mt-2">{state.validationErrors.workoutExercises[0]}</p>
+                {state?.validationErrors?.routineExercises && (
+                    <p className="text-red-500 text-sm mt-2">{state.validationErrors.routineExercises[0]}</p>
                 )}
 
                 <Button type="button" onClick={() => setDisplayPopUp(true)} className="justify-center my-2 text-[14px] py-[0px] h-[30px] w-[140px] rounded-[8px] bg-gray-900 hover:bg-gray-500">
                     Add Exercise
                 </Button>
-                <input type="hidden" name="workoutExercises" value={JSON.stringify(
+                <input type="hidden" name="routine-exercises" value={JSON.stringify(
                     selectedExercises.map((exercise) => ({
                         exerciseId: exercise.id,
                         exerciseName: exercise.name,
@@ -144,7 +137,7 @@ export default function CreateWorkoutForm({ className }: { className?: string })
                 )} />
                 {showSuccess && (
                     <p className="text-green-600 text-center mb-4">
-                        Workout logged successfully!
+                        Routine created successfully!
                     </p>
                 )}
                 <Button type="submit">Submit</Button>

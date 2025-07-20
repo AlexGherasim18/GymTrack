@@ -16,8 +16,9 @@ export async function createWorkout(
         date: workoutDate,
         user: { connect: { id: userId } },
         workoutExercises: {
-          create: workoutExercises.map((exercise) => ({
+          create: workoutExercises.map((exercise, index) => ({
             exercise: { connect: { id: exercise.exerciseId } },
+            order: index,
             sets: {
               create: exercise.sets.map((set) => ({
                 setNumber: set.setNumber,

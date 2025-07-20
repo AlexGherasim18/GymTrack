@@ -16,6 +16,56 @@ export type Workout = {
     workoutExercises: WorkoutExercise[];
 }
 
+export type WorkoutToEdit = {
+    id: number;
+    name: string;
+    date: DateTime;
+    userId?: number;
+    workoutExercises: {
+        id: number;
+        exerciseId: number;
+        workoutId: number;
+        sets: {
+            id: number;
+            setNumber: number;
+            reps: number;
+            weight: number;
+            workoutExerciseId: number;
+        }[];
+        exercise: {
+            id: number;
+            name: string;
+            description: string;
+            imageUrl: string;
+        };
+    }[];
+};
+
+export type RoutineToSubmit = {
+    id: number;
+    name: string;
+    date: DateTime;
+    userId?: number;
+    routineExercises: {
+        id: number;
+        exerciseId: number;
+        routineId: number;
+        sets: {
+            id: number;
+            setNumber: number;
+            reps: number;
+            weight: number;
+            routineExerciseId: number;
+        }[];
+        exercise: {
+            id: number;
+            name: string;
+            description: string;
+            imageUrl: string;
+        };
+    }[];
+};
+
 export type Exercise = {
     id: number;
     name: string;
@@ -24,6 +74,16 @@ export type Exercise = {
 }
 export type WorkoutExercise = {
     id: number;
+    exerciseId: number;
+    name: string;
+    description?: string;
+    imageUrl: string;
+    sets: SetInput[]
+}
+
+export type RoutineExercise = {
+    id: number;
+    exerciseId: number;
     name: string;
     description?: string;
     imageUrl: string;

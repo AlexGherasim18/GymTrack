@@ -23,7 +23,7 @@ CREATE TABLE "Set" (
     "setNumber" INTEGER NOT NULL,
     "reps" INTEGER NOT NULL,
     "weight" INTEGER NOT NULL,
-    "workoutExerciseId" INTEGER NOT NULL,
+    "workoutExerciseId" INTEGER,
 
     CONSTRAINT "Set_pkey" PRIMARY KEY ("id")
 );

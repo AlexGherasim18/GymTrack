@@ -10,4 +10,4 @@ export async function GET() {
   }
   const workouts = await getUserWorkouts(userId);
   return NextResponse.json(workouts);
-}
+};

@@ -10,6 +10,7 @@ export async function getUserWorkouts(currentUserId: number) {
             },
             include: {
                 workoutExercises: {
+                    orderBy: {order: 'asc'},
                     include: {
                         sets: true,
                     },
