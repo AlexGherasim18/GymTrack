@@ -1,5 +1,7 @@
+import AllCharts from "@/app/ui/all-charts"
+
 export default function Progress() {
     return (
-        <div>Here is the Progress Page</div>
+        <AllCharts />
     )
 }
