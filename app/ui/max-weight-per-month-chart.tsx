@@ -19,7 +19,7 @@ interface MaxWeightPerMonthChartProps {
     muscleGroups: MuscleGroupWithExercises[];
 }
 
-export default function MyLineChart({allWorkouts, availableYears, defaultYear, muscleGroups}: MaxWeightPerMonthChartProps) {
+export default function MaxWeightPerMonthChart({allWorkouts, availableYears, defaultYear, muscleGroups}: MaxWeightPerMonthChartProps) {
     const [selectedYear, setSelectedYear] = useState<number>(defaultYear || new Date().getFullYear());
     const [showExercises, setShowExercises] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -108,18 +108,48 @@ export default function MyLineChart({allWorkouts, availableYears, defaultYear, m
     };
 
     return (
-        <section className="relative h-[260px] w-[360px]">
-            <section className="filters-section flex flex-row items-center justify-between">
-                <div className="mb-3">
+        <section 
+            className="
+                relative 
+                w-full 
+                max-w-[500px] 
+                mx-auto 
+                px-2 
+                sm:px-4 
+                md:px-0 
+                flex 
+                flex-col 
+                items-center">
+            <section 
+                className="
+                    filters-section
+                    flex
+                    flex-col
+                    items-start
+                    gap-2
+                    w-full
+                    xl:flex-row xl:justify-between xl:items-center
+                "
+            >
+                <div className="mb-3 w-[170px] xl:w-auto flex justify-start">
                     <Button onClick={handleToggleDropdown} className="search-exercise h-[30px] pl-[10px] w-[170px] flex justify-between">
                         <p className="text-[13px]">Select Exercise</p>
                         <ChevronDownIcon className="w-[15px] h-[15px]"/>
                     </Button>
                 </div>
-                <div className="mb-3">
+                <div 
+                    className="
+                        mb-3 
+                        w-[170px] 
+                        xl:w-auto 
+                        xl:flex 
+                        flex-row 
+                        items-center 
+                        justify-start
+                        ">
                     <label className="text-[14px]">Select Year:</label>
                     <select
-                        className="text-[12px] ml-1 bg-gray-50 rounded-sm border-1"
+                        className="text-[12px] ml-1 bg-gray-50 rounded-sm border-1 w-[110px]"
                         value={selectedYear ?? ''}
                         onChange={(e) => setSelectedYear(Number(e.target.value))}
                     >
@@ -129,15 +159,15 @@ export default function MyLineChart({allWorkouts, availableYears, defaultYear, m
                     </select>
                 </div>
             </section>
-            {showExercises && <section className="absolute top-12 left-0 flex flex-col w-[360px] h-[240px] bg-white py-3 overflow-y-auto border-1">
-                <Input className="sticky top-0 z-10 bg-white search-exercise h-[30px] pl-[10px] w-[300px] mx-auto" type="text" name="search-exercise" id="search-exercise" placeholder="Search Exercise" value={searchTerm} onChange={handleSearchChange}/>
+            {showExercises && <section className="absolute top-12 left-0 flex flex-col w-full max-w-[420px] h-[280px] bg-white py-3 overflow-y-auto border-1 z-20">
+                <Input className="sticky top-0 z-10 bg-white search-exercise h-[30px] pl-[10px] w-full max-w-[300px] mx-auto" type="text" name="search-exercise" id="search-exercise" placeholder="Search Exercise" value={searchTerm} onChange={handleSearchChange}/>
                 {filteredExercises?.map((group) => (
                     <div key={group.id} className="bg-gray-50">
                         <h2 className="font-semibold text-[16px] mt-3 pl-2">{group.name}</h2>
                         <ul className="w-full flex flex-col">
                             {group.exercises.map((exercise) => (
-                                <li key={exercise.id} onClick={() => handleExerciseSelect({id: exercise.id, name: exercise.name})}className="w-full h-[50px] flex flex-row py-[30px] border-t-1 font-semibold items-center text-[12px] hover:cursor-pointer hover:bg-gray-100 hover:text-[14px]">
-                                    <img className="w-[100px] h-[50px]" src={exercise.imageUrl} alt={exercise.name} />
+                                <li key={exercise.id} onClick={() => handleExerciseSelect({id: exercise.id, name: exercise.name})} className="w-full h-[50px] flex flex-row py-[30px] border-t-1 font-semibold items-center text-[12px] hover:cursor-pointer hover:bg-gray-100 hover:text-[14px]">
+                                    <img className="w-[60px] h-[40px] sm:w-[100px] sm:h-[50px]" src={exercise.imageUrl} alt={exercise.name} />
                                     <p className="text-center leading-snug mx-auto">{exercise.name}</p>
                                 </li>
                             ))}
@@ -145,6 +175,7 @@ export default function MyLineChart({allWorkouts, availableYears, defaultYear, m
                     </div>
                 ))}
             </section>}
+            <div className="w-full h-[180px] sm:h-[220px] md:h-[240px]">
                 <Line 
                     data={{
                         labels: monthLabels,
@@ -157,7 +188,12 @@ export default function MyLineChart({allWorkouts, availableYears, defaultYear, m
                             }
                         ]
                     }}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                    }}
                 />
+            </div>
         </section>
     )
 }

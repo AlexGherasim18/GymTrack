@@ -6,17 +6,24 @@ import Link from "next/link";
 import Button from "@/app/ui/button";
 import { RoutineExercise } from "@/app/lib/definitions";
 import { RoutineExerciseDisplay } from "@/app/ui/routine-exercise-display";
+import { Suspense } from "react";
+import SkeletonLoading from "@/app/ui/skeleton-loading";
 
 export default function Routines() {
     const [routines, setRoutines] = useState<any[] | undefined>([]);
     const {muscleGroups, fetchExercisesList} = useExercisesListStore();
+    const [isDataReady, setIsDataReady] = useState(false);
 
     useEffect(() => {
         const fetchRoutines = async () => {
+          try {
             const res = await fetch("/api/routines");
             const data = await res.json();
             setRoutines(data);
-            console.log("Routines", data);
+            setIsDataReady(true);
+          } catch(error) {
+            console.log(error)
+          }
         }
         fetchRoutines();
         fetchExercisesList();
@@ -31,19 +38,51 @@ export default function Routines() {
     }
 
     return (
+      <Suspense fallback={<SkeletonLoading/>}>
         <section>
-          {routines?.length && 
-            <ul className="w-full max-w-[900px] mx-auto mt-[30px] grid grid-cols-3 gap-3">
-              {routines.map((routine) =>
-                <li key={routine.id} className="flex flex-col justify-between shadow-xl px-2 py-3 h-[240px]">
-                  <section className="workout-info">  
+          {isDataReady ? 
+            (<ul 
+              className="
+                w-full 
+                max-w-[900px] 
+                mx-auto 
+                mt-[30px] 
+                grid 
+                grid-cols-3 
+                gap-3
+
+                max-[716px]:grid-cols-2
+                            px-2
+                
+                max-[474px]:flex
+                            flex-col
+                            pb-4">
+              {routines?.map((routine) =>
+                <li key={routine.id} 
+                  className="
+                    flex 
+                    flex-col 
+                    justify-between 
+                    shadow-xl 
+                    px-2 
+                    py-3 
+                    h-[270px]
+                    w-full
+                    max-w-[280px]
+                    
+                    max-[474px]:mx-auto
+                    max-[235px]:h-[300px]">
+                  <section className="workout-info mb-2">  
                     <h3 className="font-semibold mb-1.5 underline">{routine.name}</h3>
-                    {routine.routineExercises.map((routineExercise: RoutineExercise) => (
-                      <RoutineExerciseDisplay 
-                        key={routineExercise.id} 
-                        routineExercise={routineExercise}
-                        getExerciseById={getExerciseById}/>
-                    ))}
+                    <div className="exercises-list-container max-h-[180px] overflow-hidden overflow-y-auto">
+                      {routine.routineExercises.map((routineExercise: RoutineExercise) => (
+                        <RoutineExerciseDisplay 
+                          key={routineExercise.id} 
+                          routineExercise={routineExercise}
+                          getExerciseById={getExerciseById}
+                        />
+                      ))}
+                    </div>
                   </section>
                   <section className="workout-action-buttons flex flex-row justify-between">
                     <Link 
@@ -60,7 +99,8 @@ export default function Routines() {
                   </section>
                 </li> 
               )}
-            </ul>}
+            </ul>) : (<section className="w-full max-w-[540px] col-span-2 mx-auto px-2 flex flex-col items-center h-64"><SkeletonLoading/></section>)}
         </section>
+      </Suspense>
     )
 }

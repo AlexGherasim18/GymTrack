@@ -9,6 +9,18 @@ export type User = {
     workouts: Workout[]
 }
 
+export type CreateUserResult = {
+    success: boolean;
+    error?: string;
+    user?: {
+        id: number;
+        username: string;
+        email: string;
+        password: string;
+        role: "user" | "admin";
+    };
+}
+
 export type Workout = {
     id: number;
     name: string;
@@ -105,4 +117,17 @@ export type SetInput = {
 export type ExerciseInput = {
     exerciseId: number;
     sets: SetInput[];
+}
+
+export type DashboardWorkout = {
+    id: number;
+    name: string;
+    date: DateTime;
+    userId: number;
+}
+
+export type DashboardRoutine = {
+    id: number;
+    name: string;
+    userId: number;
 }

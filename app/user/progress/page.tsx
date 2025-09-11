@@ -1,7 +1,11 @@
-import AllCharts from "@/app/ui/all-charts"
+import AllCharts from "@/app/ui/all-charts";
+import { Suspense } from "react";
+import SkeletonLoading from "@/app/ui/skeleton-loading";
 
 export default function Progress() {
     return (
-        <AllCharts />
+        <Suspense fallback={<SkeletonLoading />}>
+            <AllCharts />
+        </Suspense>
     )
 }

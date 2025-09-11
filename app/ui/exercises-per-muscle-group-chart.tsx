@@ -64,8 +64,19 @@ export default function ExercisesPerMuscleGroupChart({allWorkouts, availableYear
     }, [filteredWorkoutsByYear]);
 
     return (
-        <section className="h-[260px] w-[260px] flex flex-col justify-center items-start">
-            <div className="mb-3">
+        <section 
+            className="
+                flex 
+                flex-col 
+                justify-center 
+                items-center 
+                mx-auto 
+                w-full 
+                max-w-[420px] 
+                px-2 
+                sm:px-4 
+                md:px-0">
+            <div className="mb-3 w-full flex justify-center">
                 <label className="text-[14px]">Select Year:</label>
                 <select
                     className="text-[12px] ml-1 bg-gray-50 rounded-sm border-1"
@@ -77,27 +88,59 @@ export default function ExercisesPerMuscleGroupChart({allWorkouts, availableYear
                     ))}
                 </select>
             </div>
-            <Doughnut 
-                data={{
-                    labels: muscleGroupData.names,
-                    datasets: [
-                        {
-                            label: "Exercises: ",
-                            data: muscleGroupData.counts,
-                            borderColor: ["red", "blue", "yellow", "green", "black"],
-                            backgroundColor: ["red", "blue", "yellow", "green", "black"]
+            <div
+                className="
+                    w-full
+                    max-w-[420px]
+                    max-h-[280px]
+                    min-w-[180px]
+                    min-h-[120px]
+                    flex 
+                    justify-center 
+                    items-center
+                    sm:w-[60vw]
+                    sm:h-[40vw]
+                    md:w-[420px]
+                    md:h-[280px]
+                    lg:max-w-[420px]
+                    lg:max-h-[280px]
+                    "
+            >
+                <Doughnut 
+                    data={{
+                        labels: muscleGroupData.names,
+                        datasets: [
+                            {
+                                label: "Exercises: ",
+                                data: muscleGroupData.counts,
+                                borderColor: ["red", "blue", "yellow", "green", "black"],
+                                backgroundColor: ["red", "blue", "yellow", "green", "black"]
+                            }
+                        ],
+                    }}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                align: 'center',
+                                labels: {
+                                    font: {
+                                        size: 10
+                                    },
+                                    boxWidth: 12,
+                                    boxHeight: 12,
+                                    padding: 10,
+                                    usePointStyle: true,
+                                },
+                                display: true,
+                                fullSize: false,
+                            }
                         }
-                    ],
-                }}
-                options={{
-                    plugins: {
-                        legend: {
-                            position: "bottom",
-                            align: 'start',
-                        }
-                    }
-                }}
-            />
+                    }}
+                />
+            </div>
         </section>
     )
 }

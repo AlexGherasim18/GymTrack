@@ -5,8 +5,10 @@ import { z } from "zod";
 import { createWorkout } from "./createWorkout";
 import { createRoutine } from "./createRoutine";
 import { auth } from "./auth";
-import { getUserWorkouts } from "./getUserWorkouts";
 import { editWorkout } from "./editWorkout";
+import { createUser } from "./createUser";
+import { User } from "./definitions";
+import bcrypt from "bcryptjs";
 
 export async function authenticate(
     prevState: {error: string | null, success: boolean} | undefined,
@@ -72,6 +74,65 @@ const RoutineSchema = z.object({
         })).min(1, "Each exercise must have at least one set.")
     })).min(1, "You must add at least one exercise.")
 })
+
+const UserSchema = z.object({
+    username: z.string().min(3, "Username must have at least 3 characters."),
+    email: z.string().email("Invalid email address."),
+    password: z.string().min(4, "Password must have at least 4 characters.")
+})
+
+type RegisterState = {
+    error: string | null;
+    success: boolean;
+    validationErrors?: {
+        username?: string[];
+        email?: string[];
+        password?: string[];
+    };
+    user?: {
+        id: number;
+        username: string;
+        email: string;
+        role: string;
+    };
+};
+
+export async function register(
+    state: RegisterState | undefined,
+    formData: FormData
+): Promise<RegisterState> {
+    const rawUsername = formData.get('username')?.toString() || '';
+    const rawEmail = formData.get('email')?.toString() || '';
+    const rawPassword = formData.get('password')?.toString() || '';
+
+    const parsed = UserSchema.safeParse({
+        username: rawUsername,
+        email: rawEmail,
+        password: rawPassword
+    });
+
+    if(!parsed.success) {
+        const zodErrors = parsed.error.flatten().fieldErrors;
+
+        return {
+            error: null,
+            success: false,
+            validationErrors: zodErrors,
+        }
+    };
+
+
+    const { username, email, password } = parsed.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await createUser(username, email, hashedPassword);
+
+    if(!result.success) {
+        return { error: result.error || "Failed to create user", success: false, validationErrors: undefined, user: undefined };
+    }
+
+    return { error: null, success: true, validationErrors: undefined, user: result.user };
+}
 
 export async function addWorkout(
     prevState: {error: string | null, success: boolean} | undefined,

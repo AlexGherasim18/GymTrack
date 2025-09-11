@@ -6,17 +6,24 @@ import { WorkoutExercise } from "@/app/lib/definitions";
 import { WorkoutExerciseDisplay } from "@/app/ui/workout-exercise-display";
 import Link from "next/link";
 import Button from "@/app/ui/button";
+import { Suspense } from "react";
+import SkeletonLoading from "@/app/ui/skeleton-loading";
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState<any[] | undefined>([]);
   const {muscleGroups, fetchExercisesList} = useExercisesListStore();
-
+  const [isDataReady, setIsDataReady] = useState(false);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const res = await fetch("/api/workouts");
-      const data = await res.json();
-      setWorkouts(data);
+      try {
+        const res = await fetch("/api/workouts");
+        const data = await res.json();
+        setWorkouts(data);
+        setIsDataReady(true);
+      } catch(error) {
+        console.log(error)
+      }
     };
     fetchWorkouts();
     fetchExercisesList();
@@ -30,20 +37,51 @@ export default function Workouts() {
   }
 
     return (
-        <section>
-          {workouts?.length && 
-            <ul className="w-full max-w-[900px] mx-auto mt-[30px] grid grid-cols-3 gap-3">
-              {workouts.map((workout) =>
-                <li key={workout.id} className="flex flex-col justify-between shadow-xl px-2 py-3 h-[240px]">
-                  <section className="workout-info">  
+      <Suspense fallback={<SkeletonLoading/>}>
+        <section className="max-h-[calc(100vh-2rem)] overflow-y-auto overflow-x-hidden">
+          {isDataReady ? 
+            (<ul 
+              className="
+                w-full 
+                max-w-[900px] 
+                mx-auto 
+                mt-[30px] 
+                grid 
+                grid-cols-3 
+                gap-3
+                
+                max-[716px]:grid-cols-2
+                            px-2
+                
+                max-[474px]:flex
+                            flex-col
+                            pb-4">
+              {workouts?.map((workout) =>
+                <li key={workout.id} 
+                  className="
+                    flex 
+                    flex-col 
+                    justify-between 
+                    shadow-xl 
+                    px-2 
+                    py-3 
+                    h-[300px]
+                    w-full
+                    max-w-[280px]
+                    
+                    max-[474px]:mx-auto
+                    max-[235px]:h-[300px]">
+                  <section className="workout-info mb-2">  
                     <h3 className="font-semibold mb-1.5 underline">{workout.name}</h3>
                     <p className="text-[14px]">Date: {workout.date.split("T")[0]}</p>
-                    {workout.workoutExercises.map((workoutExercise: WorkoutExercise) => (
-                      <WorkoutExerciseDisplay 
-                        key={workoutExercise.id} 
-                        workoutExercise={workoutExercise} 
-                        getExerciseById={getExerciseById}/>
-                    ))}
+                    <div className="exercises-list-container max-h-[180px] overflow-hidden overflow-y-auto">
+                      {workout.workoutExercises.map((workoutExercise: WorkoutExercise) => (
+                        <WorkoutExerciseDisplay 
+                          key={workoutExercise.id} 
+                          workoutExercise={workoutExercise} 
+                          getExerciseById={getExerciseById}/>
+                      ))}
+                    </div>
                   </section>
                   <section className="workout-action-buttons flex flex-row justify-between">
                     <Link 
@@ -60,7 +98,8 @@ export default function Workouts() {
                   </section>
                 </li> 
               )}
-            </ul>}
+            </ul>) : (<section className="w-full max-w-[540px] col-span-2 mx-auto px-2 flex flex-col items-center h-64"><SkeletonLoading/></section>)}
         </section>
+      </Suspense>
     )
 }

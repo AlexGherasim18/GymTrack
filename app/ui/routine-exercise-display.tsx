@@ -12,7 +12,17 @@ export function RoutineExerciseDisplay(
     const maxReps = Math.max(...repsArray);
 
     return (
-        <section className="exercise-and-sets text-[16px] flex flex-row justify-between">
+        <section 
+            className="
+                exercise-and-sets 
+                text-[14px] 
+                flex 
+                flex-col 
+                justify-between 
+                border-b-[1px]
+                border-gray-300
+                "
+        >
             <p>{exercise.name}</p>
             <p>
                 {routineExercise.sets.length} X {minReps === maxReps ? minReps : `${minReps}-${maxReps}`}
