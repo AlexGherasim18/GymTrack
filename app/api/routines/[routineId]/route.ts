@@ -14,9 +14,8 @@ export async function DELETE(request: Request, { params }: { params: { routineId
   return NextResponse.json({success: !!deleteRoutine});
 };
 
-export async function GET(request: Request, context: Promise<{params: {routineId: string}}>) {
+export async function GET(request: Request, { params }: { params: { routineId: string } }) {
   const session = await auth();
-  const { params } = await context;
   const userId = Number(session?.user.id);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
