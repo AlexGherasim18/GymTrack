@@ -14,13 +14,14 @@ export async function DELETE(request: Request, { params }: { params: { routineId
   return NextResponse.json({success: !!deleteRoutine});
 };
 
-export async function GET(request: Request, { params }: { params: { routineId: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ routineId: string }> }) {
   const session = await auth();
   const userId = Number(session?.user.id);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const routineId = Number(params.routineId);
-  const routineToSubmit = await getRoutineById(routineId, userId);
+  const { routineId } = await params;
+  const routineIdNum = Number(routineId);
+  const routineToSubmit = await getRoutineById(routineIdNum, userId);
   return NextResponse.json(routineToSubmit);
 }
