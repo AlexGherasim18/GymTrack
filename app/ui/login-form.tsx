@@ -15,12 +15,6 @@ export default function LoginForm() {
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
     useEffect(() => {
-        if(state?.success) {
-            window.location.reload();
-        }
-    }, [state]);
-
-    useEffect(() => {
         if (status === 'authenticated') {
             if (session.user.role === 'admin') {
                 router.replace('/admin/dashboard');
