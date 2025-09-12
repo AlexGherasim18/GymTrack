@@ -6,7 +6,15 @@ export type User = {
     username: string;
     password: string;
     role: "user" | "admin";
-    workouts: Workout[]
+    workouts?: Workout[]
+}
+
+export type AuthUser = {
+    id: number;
+    email: string;
+    username: string;
+    password: string;
+    role: "user" | "admin";
 }
 
 export type CreateUserResult = {
