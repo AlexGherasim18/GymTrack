@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
 import z from 'zod';
-import { AuthUser, User } from "./definitions";
+import { AuthUser } from "./definitions";
 import { CredentialsSignin } from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 
@@ -15,7 +15,7 @@ async function getUser(username: string): Promise<AuthUser | null> {
             where:{username}
         })
         return user;
-    } catch(error) {
+    } catch {
         throw new Error("Something went wrong");
     }
 }
@@ -73,6 +73,7 @@ export const authOptions = {
         async session({ session, token }) {
             session.user.id = token.id;
             session.user.name = token.name;
+            session.user.username = token.name || "";
             session.user.role = token.role;
                 
             return session

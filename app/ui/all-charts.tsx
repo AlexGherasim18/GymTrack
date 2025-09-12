@@ -29,7 +29,7 @@ export default function AllCharts() {
         };
         fetchWorkouts();
         fetchExercisesList();
-    }, []);
+    }, [fetchExercisesList]);
     
     const availableYears = useMemo(() => {
         if(allWorkouts.length === 0) return [];

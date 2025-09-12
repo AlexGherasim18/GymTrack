@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { useExercisesListStore } from "@/app/store/exercisesStore";
 import Link from "next/link";
 import Button from "@/app/ui/button";
-import { RoutineExercise } from "@/app/lib/definitions";
+import { Routine, RoutineExercise } from "@/app/lib/definitions";
 import { RoutineExerciseDisplay } from "@/app/ui/routine-exercise-display";
 import { Suspense } from "react";
 import SkeletonLoading from "@/app/ui/skeleton-loading";
 
 export default function Routines() {
-    const [routines, setRoutines] = useState<any[] | undefined>([]);
+    const [routines, setRoutines] = useState<Routine[] | undefined>([]);
     const {muscleGroups, fetchExercisesList} = useExercisesListStore();
     const [isDataReady, setIsDataReady] = useState(false);
 

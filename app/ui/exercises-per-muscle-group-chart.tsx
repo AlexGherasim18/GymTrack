@@ -1,8 +1,7 @@
 'use client';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { useExercisesListStore } from "../store/exercisesStore";
 import { WorkoutExercise, Workout, MuscleGroupWithExercises } from "../lib/definitions";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
@@ -61,7 +60,7 @@ export default function ExercisesPerMuscleGroupChart({allWorkouts, availableYear
         });
 
         return { names, counts };
-    }, [filteredWorkoutsByYear]);
+    }, [filteredWorkoutsByYear, allWorkouts, exerciseIdToGroupIndex, muscleGroups]);
 
     return (
         <section 

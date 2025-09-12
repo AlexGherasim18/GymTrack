@@ -2,7 +2,7 @@
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Title } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { WorkoutExercise, Workout, MuscleGroupWithExercises } from "../lib/definitions";
+import { Workout, MuscleGroupWithExercises } from "../lib/definitions";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Input from "./input";
 import { useState, useMemo } from "react";

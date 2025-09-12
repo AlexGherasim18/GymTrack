@@ -101,6 +101,13 @@ export type WorkoutExercise = {
     sets: SetInput[]
 }
 
+export type Routine = {
+    id: number;
+    name: string;
+    routineExercises: RoutineExercise[];
+    userId: number;
+}
+
 export type RoutineExercise = {
     id: number;
     exerciseId: number;

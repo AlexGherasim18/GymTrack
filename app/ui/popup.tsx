@@ -4,8 +4,9 @@ import { useEffect, useState, useMemo } from "react";
 import { useExercisesListStore } from "../store/exercisesStore";
 import { XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Button from "./button";
+import { Exercise } from "../lib/definitions";
 
-export default function PopUp({onClose, onSelectExercise}: {onClose: () => void; onSelectExercise: (exercise: any) => void}) {
+export default function PopUp({onClose, onSelectExercise}: {onClose: () => void; onSelectExercise: (exercise: Exercise) => void}) {
     const {muscleGroups, fetchExercisesList} = useExercisesListStore();
     const [searchQuery, setSearchQuery] = useState("");
 

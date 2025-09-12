@@ -1,4 +1,3 @@
-import { DateTime } from "next-auth/providers/kakao";
 import { PrismaClient } from "../generated/prisma";
 import { ExerciseInput } from "./definitions";
 

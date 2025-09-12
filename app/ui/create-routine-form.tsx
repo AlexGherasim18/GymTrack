@@ -30,7 +30,7 @@ export default function CreateRoutineForm() {
             }, 2000);
             return () => clearTimeout(timeout);
         }
-    }, [state?.success])
+    }, [state?.success, router])
 
     const handleAddSet = (exerciseIndex: number) => {
         setSelectedExercises((exercisesList) => 
@@ -212,7 +212,7 @@ export default function CreateRoutineForm() {
             </Form> : <PopUp 
                         onClose={() => setDisplayPopUp(false)} 
                         onSelectExercise={(exercise) => {
-                            setSelectedExercises((prev) => [...prev, {...exercise, sets: [{setNumber: 1, reps: 0, weight: 0}]}]);
+                            setSelectedExercises((prev) => [...prev, {...exercise, exerciseId: exercise.id, sets: [{setNumber: 1, reps: 0, weight: 0}]}]);
                             setDisplayPopUp(false);
                             }
                         }

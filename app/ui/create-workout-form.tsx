@@ -10,7 +10,7 @@ import { WorkoutExercise } from "../lib/definitions";
 import { TrashIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
-export default function CreateWorkoutForm({ className }: { className?: string }) {
+export default function CreateWorkoutForm() {
     const [displayPopUp, setDisplayPopUp] = useState(false);
     const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
     const [state, formAction] = useActionState(addWorkout, undefined);
@@ -33,7 +33,7 @@ export default function CreateWorkoutForm({ className }: { className?: string })
             }, 2000);
             return () => clearTimeout(timeout);
         }
-    }, [state?.success]);
+    }, [state?.success, router]);
     
     const handleAddSet = (exerciseIndex: number) => {
         setSelectedExercises((exercisesList) => 
@@ -221,7 +221,7 @@ export default function CreateWorkoutForm({ className }: { className?: string })
             </Form> : <PopUp 
                         onClose={() => setDisplayPopUp(false)} 
                         onSelectExercise={(exercise) => {
-                            setSelectedExercises((prev) => [...prev, {...exercise, sets: [{setNumber: 1, reps: 0, weight: 0}]}]);
+                            setSelectedExercises((prev) => [...prev, {...exercise, exerciseId: exercise.id, sets: [{setNumber: 1, reps: 0, weight: 0}]}]);
                             setDisplayPopUp(false);
                             }
                         }

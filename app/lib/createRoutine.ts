@@ -1,4 +1,3 @@
-import { success } from "zod/v4";
 import { PrismaClient } from "../generated/prisma";
 import { ExerciseInput } from "./definitions";
 

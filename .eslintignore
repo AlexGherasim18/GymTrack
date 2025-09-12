@@ -1,7 +1,5 @@
 node_modules/
 .next/
-out/
-build/
-dist/
-app/generated/
-*.generated.*
+app/generated/**
+app/generated/**/*
+**/generated/**

@@ -1,8 +1,8 @@
-import { WorkoutExercise } from "../lib/definitions";
+import { WorkoutExercise, Exercise } from "../lib/definitions";
 
 export function WorkoutExerciseDisplay(
     {workoutExercise, getExerciseById}:
-    {workoutExercise: WorkoutExercise, getExerciseById: (id: number) => any}
+    {workoutExercise: WorkoutExercise, getExerciseById: (id: number) => Exercise | undefined}
 ) {
     const exercise = getExerciseById(workoutExercise.exerciseId);
     if (!exercise) return null;

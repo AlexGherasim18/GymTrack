@@ -26,7 +26,7 @@ export default function SubmitRoutineForm() {
     const { routineExercises } = routineToSubmit;
     const [isDataReady, setIsDataReady] = useState(false);
 
-    const [state, formAction] = useActionState(addWorkout, undefined);
+    const [, formAction] = useActionState(addWorkout, undefined);
 
     useEffect(() => {
         const fetchRoutine = async () => {

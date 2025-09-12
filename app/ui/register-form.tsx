@@ -1,6 +1,6 @@
 'use client'
 
-import { KeyIcon, UserIcon, AtSymbolIcon, ArrowRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { KeyIcon, UserIcon, AtSymbolIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import Button from "./button";
 import Form from "./form";
 import Input from "./input";

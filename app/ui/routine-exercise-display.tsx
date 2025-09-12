@@ -1,8 +1,8 @@
-import { RoutineExercise } from "../lib/definitions";
+import { RoutineExercise, Exercise } from "../lib/definitions";
 
 export function RoutineExerciseDisplay(
     {routineExercise, getExerciseById}:
-    {routineExercise: RoutineExercise, getExerciseById: (id: number) => any}
+    {routineExercise: RoutineExercise, getExerciseById: (id: number) => Exercise | undefined}
 ) {
     const exercise = getExerciseById(routineExercise.exerciseId);
     if (!exercise) return null;

@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import HamburgerButton from "./hamburger-button";
 
 export default function SideNav() {
-    const {data: session, status} = useSession();
+    const {data: session} = useSession();
     const pathname = usePathname();
     const isActive = (href: string) => pathname === href
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,12 +23,6 @@ export default function SideNav() {
 
     const closeMenu = () => {
         setIsMenuOpen(false);
-    };
-
-    const handleLinkClick = () => {
-        if (window.innerWidth <= 670) {
-            closeMenu();
-        }
     };
 
     useEffect(() => {

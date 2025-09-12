@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useExercisesListStore } from "@/app/store/exercisesStore";
-import { WorkoutExercise } from "@/app/lib/definitions";
+import { Workout, WorkoutExercise } from "@/app/lib/definitions";
 import { WorkoutExerciseDisplay } from "@/app/ui/workout-exercise-display";
 import Link from "next/link";
 import Button from "@/app/ui/button";
@@ -10,7 +10,7 @@ import { Suspense } from "react";
 import SkeletonLoading from "@/app/ui/skeleton-loading";
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState<any[] | undefined>([]);
+  const [workouts, setWorkouts] = useState<Workout[] | undefined>([]);
   const {muscleGroups, fetchExercisesList} = useExercisesListStore();
   const [isDataReady, setIsDataReady] = useState(false);
 

@@ -23,7 +23,7 @@ export default function EditWorkoutForm() {
     const [workoutToEdit, setWorkoutToEdit] = useState<WorkoutToEdit>(initialStateWorkout);
     const { workoutExercises } = workoutToEdit;
     const [displayPopUp, setDisplayPopUp] = useState(false);
-    const [state, formAction] = useActionState(updateWorkout, undefined);
+    const [, formAction] = useActionState(updateWorkout, undefined);
     const [isDataReady, setIsDataReady] = useState(false);
 
     useEffect(() => {
@@ -288,7 +288,7 @@ export default function EditWorkoutForm() {
                                                                 exercise: {
                                                                     id: exercise.id,
                                                                     name: exercise.name,
-                                                                    description: exercise.description,
+                                                                    description: exercise.description || "",
                                                                     imageUrl: exercise.imageUrl
                                                                 }
                                                             }
