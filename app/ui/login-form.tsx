@@ -11,18 +11,18 @@ import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
     const router = useRouter();
-    const { data: session, status } = useSession();
+    const { data: session} = useSession();
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
     useEffect(() => {
-        if (status === 'authenticated') {
-            if (session.user.role === 'admin') {
+        if (state?.success) {
+            if (session?.user.role === 'admin') {
                 router.replace('/admin/dashboard');
             } else {
                 router.replace('/user/dashboard');
+            }
         }
-    }
-  }, [session, status, router]);
+    }, [state, session, router]);
 
     return (
         <Form action={formAction} className="w-full shadow-xl">
