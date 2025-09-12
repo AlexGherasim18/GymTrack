@@ -3,15 +3,16 @@ import { auth } from "@/app/lib/auth";
 import { deleteRoutine } from "@/app/lib/deleteRoutine";
 import { getRoutineById } from "@/app/lib/getRoutineById";
 
-export async function DELETE(request: Request, { params }: { params: { routineId: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ routineId: string }> }) {
   const session = await auth();
   const userId = Number(session?.user.id);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const routineId = Number(params.routineId);
-  const deletedWorkout = await deleteRoutine(routineId, userId);
-  return NextResponse.json({success: !!deleteRoutine});
+  const { routineId } = await params;
+  const routineIdNum = Number(routineId);
+  const deletedWorkout = await deleteRoutine(routineIdNum, userId);
+  return NextResponse.json({success: !!deletedWorkout});
 };
 
 export async function GET(request: Request, { params }: { params: Promise<{ routineId: string }> }) {
