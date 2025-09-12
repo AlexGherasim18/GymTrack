@@ -14,7 +14,7 @@ export default function SideNav() {
     const isActive = (href: string) => pathname === href
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const username = session?.user.name;
+    const username = session?.user.username;
     const role = session?.user.role;
 
     const toggleMenu = () => {
