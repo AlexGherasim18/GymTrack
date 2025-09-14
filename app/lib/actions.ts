@@ -7,7 +7,6 @@ import { createRoutine } from "./createRoutine";
 import { auth } from "./auth";
 import { editWorkout } from "./editWorkout";
 import { createUser } from "./createUser";
-import { getUser } from "./auth";
 import bcrypt from "bcryptjs";
 
 export async function authenticate(
