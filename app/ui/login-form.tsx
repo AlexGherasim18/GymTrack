@@ -16,11 +16,13 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (state?.success && session) {
-            if (session.user.role === 'admin') {
-                router.replace('/admin/dashboard');
-            } else {
-                router.replace('/user/dashboard');
-            }
+            setTimeout(() => {
+                if (session.user.role === 'admin') {
+                    router.replace('/admin/dashboard');
+                } else {
+                    router.replace('/user/dashboard');
+                }
+            }, 1000)
         }
     }, [state?.success, session?.user?.role, router]);
 
