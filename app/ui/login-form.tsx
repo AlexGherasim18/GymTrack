@@ -15,16 +15,19 @@ export default function LoginForm() {
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
     useEffect(() => {
-        if (state?.success && session) {
-            setTimeout(() => {
+    if (state?.success) {
+        const timeout = setTimeout(() => {
+            if (session?.user?.role) {
                 if (session.user.role === 'admin') {
                     router.replace('/admin/dashboard');
                 } else {
                     router.replace('/user/dashboard');
                 }
-            }, 1000)
-        }
-    }, [state?.success, session?.user?.role, router]);
+            }
+        }, 500); // 500ms delay
+        return () => clearTimeout(timeout);
+    }
+}, [state?.success, session?.user?.role, router]);
 
     return (
         <Form action={formAction} className="w-full shadow-xl">
