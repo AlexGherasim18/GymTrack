@@ -24,7 +24,7 @@ export default function LoginForm() {
                     router.replace('/user/dashboard');
                 }
             }
-        }, 500); // 500ms delay
+        }, 500);
         return () => clearTimeout(timeout);
     }
 }, [state?.success, session?.user?.role, router]);
