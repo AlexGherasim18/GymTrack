@@ -6,8 +6,8 @@ import Form from "./form";
 import Input from "./input";
 import { authenticate } from "../lib/actions";
 import { useActionState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -16,13 +16,13 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (state?.success && session) {
-            if (session?.user.role === 'admin') {
+            if (session.user.role === 'admin') {
                 router.replace('/admin/dashboard');
             } else {
                 router.replace('/user/dashboard');
             }
         }
-    }, [state, session, router]);
+    }, [state?.success, session?.user?.role, router]);
 
     return (
         <Form action={formAction} className="w-full shadow-xl">

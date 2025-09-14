@@ -7,6 +7,7 @@ import { createRoutine } from "./createRoutine";
 import { auth } from "./auth";
 import { editWorkout } from "./editWorkout";
 import { createUser } from "./createUser";
+import { getUser } from "./auth";
 import bcrypt from "bcryptjs";
 
 export async function authenticate(
@@ -22,7 +23,7 @@ export async function authenticate(
             password,
         });
 
-        if(result?.error) {
+        if (result?.error) {
             return { error: "Invalid username or password.", success: false };
         }
 

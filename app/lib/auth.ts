@@ -9,7 +9,7 @@ import type { NextAuthConfig } from "next-auth";
 
 const prisma = new PrismaClient();
 
-async function getUser(username: string): Promise<AuthUser | null> {
+export async function getUser(username: string): Promise<AuthUser | null> {
     try {
         const user = await prisma.user.findUnique({
             where:{username}
