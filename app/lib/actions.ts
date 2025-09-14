@@ -16,11 +16,16 @@ export async function authenticate(
     const username = formData.get('username')?.toString() || ''
     const password = formData.get('password')?.toString() || ''
     try {
-        await signIn('credentials', {
+        const result = await signIn('credentials', {
             redirect: false,
             username,
             password,
         });
+
+        if(result?.error) {
+            return { error: "Invalid username or password.", success: false };
+        }
+
         return {error: null, success: true};
     } catch (error) {
         if (error instanceof AuthError) {
@@ -31,6 +36,8 @@ export async function authenticate(
                     return { error: "Something went wrong.", success: false };
             }
         }
+
+        return { error: "Something went wrong.", success: false };
     }
 }
 
