@@ -11,27 +11,18 @@ import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
     const router = useRouter();
-    const { data: session, update} = useSession();
+    const { data: session} = useSession();
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
     useEffect(() => {
-        const handleRedirect = async () => {
-            if (state?.success) {
-                await update();
-                
-                setTimeout(() => {
-                    const currentSession = session;
-                    if (currentSession?.user?.role === 'admin') {
-                        router.replace('/admin/dashboard');
-                    } else {
-                        router.replace('/user/dashboard');
-                    }
-                }, 100);
+        if(state?.success) {
+            if (session?.user.role === "admin") {
+                router.replace('/admin/dashboard');
+            } else {
+                router.replace('/user/dashboard');
             }
-        };
-
-        handleRedirect();
-    }, [state?.success, update, router, session]);
+        }
+    }, [state, session, router]);
 
     return (
         <Form action={formAction} className="w-full shadow-xl">

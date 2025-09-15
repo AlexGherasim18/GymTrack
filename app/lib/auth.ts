@@ -81,7 +81,7 @@ export const authOptions = {
         async redirect({ baseUrl }) {
             return baseUrl;
         },
-  }
+    },
 } satisfies NextAuthConfig;
 
 export const {
