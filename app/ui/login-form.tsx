@@ -7,22 +7,27 @@ import Input from "./input";
 import { authenticate } from "../lib/actions";
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 export default function LoginForm() {
     const router = useRouter();
-    const { data: session} = useSession();
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
     useEffect(() => {
-        if(state?.success) {
-            if (session?.user.role === "admin") {
-                router.replace('/admin/dashboard');
-            } else {
-                router.replace('/user/dashboard');
+        const handleSuccessfulLogin = async () => {
+            if (state?.success) {
+                const updatedSession = await getSession();
+                
+                if (updatedSession?.user?.role === "admin") {
+                    router.replace('/admin/dashboard');
+                } else {
+                    router.replace('/user/dashboard');
+                }
             }
-        }
-    }, [state, session, router]);
+        };
+        
+        handleSuccessfulLogin();
+    }, [state, router]);
 
     return (
         <Form action={formAction} className="w-full shadow-xl">
