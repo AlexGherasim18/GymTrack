@@ -4,3 +4,20 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/user/dashboard"
+  to = "/user/dashboard"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/admin/dashboard" 
+  to = "/admin/dashboard"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
